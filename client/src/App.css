@@ -1,8 +1,8 @@
-.App {
+/* .App {
   text-align: center;
-}
+} */
 
-.App-logo {
+/* .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
@@ -16,6 +16,33 @@
 
 .App-intro {
   font-size: large;
+} */
+.nav {
+  background-color:#e3c8a6;
+  
+  padding-bottom: 10px;
+  padding-top: 10px;
+  
+}
+
+.display-4 {
+  font-size: 80px;
+  font-weight: 500;
+}
+.lead {
+  font-size: 50px;
+  font-weight: 200;
+}
+.jumbotron {
+  height: 300;
+  padding-top: 120;
+  clear: "both";
+  text-align: center;
+  background-image: url(https://images.pexels.com/photos/97050/pexels-photo-97050.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350);
+  padding: 80px;
+  color: darkorchid;
+  font-weight: 600;
+  background-size: cover;
 }
 
 @keyframes App-logo-spin {
