@@ -13,9 +13,9 @@ export default {
     return axios.delete("/api/articles/" + id);
   },
 
-  saveArticles: function(articleData) {
+  saveArticles: function(article) {
     
-    return axios.post("/api/articles", articleData);
+    return axios.post("/api/articles", article);
     
   },
 
@@ -24,9 +24,9 @@ export default {
     return axios.put(`/api/articles/${id}`);
   },
 
-  findArticles: function(topic, date, url) {
-      console.log(topic, date, url);
-      return axios.get(`${BASEURL}?api-key=${APIKEY}`);
+  findNYTArticles: function(topic, from, to) {
+      console.log(topic, from, to);
+      return axios.get(`${BASEURL}?api-key=${APIKEY}&q=${topic}&begin_date=${from}&end_date=${to}`);
       
-  }
+  },
 };

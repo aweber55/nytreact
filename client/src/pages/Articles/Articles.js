@@ -11,42 +11,55 @@ class Articles extends Component {
     state = {
       articles: [],
       title: "",
-      date: "",
-      url: "",
+      from: "",
+      to: "",
       saved:{},
       articlesDisplayed:[]
     };
 
+searchArticles = (topic, from, to ) => {
+  this.setState({articlesDisplayed: [] })
+  
 
-    searchArticles = event => {
-        event.preventDefault();
-        API.findArticles(this.state.title)
-          .then(res => {
-            let newArray = []
-            this.setState({ articles: res.data.response.docs}); 
-            console.log(this.state.articles); 
-            this.state.articles.forEach(elem => {
-            console.log(elem);
-            this.setState({
-                    saved:{
-                        title:elem.headline.main,
-                        date:elem.pub_date,
-                        link:elem.web_url
-                    }
-                });
-            console.log(this.state.saved);
-            newArray.push(this.state.saved);
-                API.saveArticles(this.state.saved)
-                .then(res => {
-                    console.log(res);
-                    this.setState({
-                        articlesDisplayed:newArray
-                    })
-				})
-            });
-        })
-        this.loadSavedArticles();
-    };
+  API.findNYTArticles(topic, from, to)
+  .then(function(res) {
+
+
+  })
+
+
+}
+
+    // searchArticles = event => {
+    //     event.preventDefault();
+        
+    //     API.findArticles(this.state.title)
+    //       .then(res => {
+    //         let newArray = []
+    //         this.setState({ articles: res.data.response.docs}); 
+    //         console.log(this.state.articles); 
+    //         this.state.articles.forEach(elem => {
+    //         console.log(elem);
+    //         this.setState({
+    //                 saved:{
+    //                     title:elem.headline.main,
+    //                     date:elem.pub_date,
+    //                     link:elem.web_url
+    //                 }
+    //             });
+    //         console.log(this.state.saved);
+    //         newArray.push(this.state.saved);
+    //             API.saveArticles(this.state.saved)
+    //             .then(res => {
+    //                 console.log(res);
+    //                 this.setState({
+    //                     articlesDisplayed:newArray
+    //                 })
+		// 		})
+    //         });
+    //     })
+    //     this.loadSavedArticles();
+    // };
     
 
     handleInputChange = event => {
@@ -55,13 +68,18 @@ class Articles extends Component {
           [name]: value
         });
       };
+      
       saveArticle = (article) => {
-        API.updateArticles( {
-            title: this.title,
-            date: this.date,
-            url: this.url,
-            saved: true
+       
+        API.saveArticles( {
+          title: article.title,
+          date: article.date,
+          url: article.url,
+          saved: true
         })
+        .then(res => this.loadSavedArticles())
+        .catch(err => console.log(err));
+       
         
     };
     loadSavedArticles = () => {
@@ -78,17 +96,11 @@ class Articles extends Component {
 // 
 handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title) {
-      API.saveArticle({
-        title: this.state.headline,
-        date: this.state.date,
-        url: this.state.url
-      })
-        .then(res => this.loadBooks())
-        .catch(err => console.log(err));
+    if(this.state.topic && this.state.from && this.state.to) {
+      this.searchArticles(this.state.topic, this.state.from, this.state.to)
     }
   };
-    
+  
 
 
       render() {
@@ -96,21 +108,32 @@ handleFormSubmit = event => {
           <Container>
            
             <Row >
-              <button className="btn btn-danger" onClick={this.handleFormSubmit} />
+              {/* <button className="btn btn-danger" onClick={this.handleFormSubmit} /> */}
              <Col size="md-12">
              <form>
              <h4>Topic</h4>
               <Input
-              type= "text"
-                value={this.props.value}
+              
+                value={this.props.topic}
                 onChange={this.handleInputChange}
-                name="title"
+                name="topic"
                 placeholder="hello"
               />
-             
+             <Input
+                value={this.state.from}
+                onChange={this.handleInputChange}
+                name="from"
+                placeholder="date from"
+              />
+              <Input
+                value={this.state.to}
+                onChange={this.handleInputChange}
+                name="to"
+                placeholder="date to"
+              />
               <FormBtn
-                // disabled={!(this.state.topic && this.state.startYear && this.state.endYear)}
-                onClick={this.searchArticles} 
+                // disabled={!(this.state.topic && this.state.from && this.state.to)}
+                onClick={this.handleFormSubmit} 
                 
               >
               
