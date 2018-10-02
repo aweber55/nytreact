@@ -34,7 +34,7 @@ searchArticles = (topic, from, to ) => {
     if(res) {
       let data = [];
       
-      for (var i=0; i<(5>res.data.response.docs.length ? (res.data.response.docs.length) : 10); i++){
+      for (var i=0; i<(5>res.data.response.docs.length ? (res.data.response.docs.length) : 5); i++){
       var url = res.data.response.docs[i].web_url;
       var title = res.data.response.docs[i].headline.main;
       var pub_date = res.data.response.docs[i].pub_date;
@@ -140,7 +140,7 @@ handleFormSubmit = event => {
                 placeholder="date to YYYYMMDD"
               />
               <FormBtn
-                disabled={!(this.state.topic && this.state.from && this.state.to)}
+                // disabled={!(this.state.topic && this.state.from && this.state.to)}
                 onClick={this.handleFormSubmit} 
                 
               >
