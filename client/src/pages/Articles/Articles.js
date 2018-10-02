@@ -49,7 +49,8 @@ searchArticles = (topic, from, to ) => {
       }
       
       results.setState({articlesDisplayed: data});
-      console.log(data); 
+      
+      console.log(data + "hello"); 
       
     }
   })
@@ -96,9 +97,7 @@ searchArticles = (topic, from, to ) => {
     )
     .catch(err => console.log(err));
   }
-
-   
-      
+  
 
      
 // 
@@ -128,13 +127,13 @@ handleFormSubmit = event => {
                 placeholder="topic"
               />
              <Input
-                value={this.state.from}
+                value={this.state.startYear}
                 onChange={this.handleInputChange}
                 name="from"
                 placeholder="date from YYYYMMDD"
               />
               <Input
-                value={this.state.to}
+                value={this.state.endYear}
                 onChange={this.handleInputChange}
                 name="to"
                 placeholder="date to YYYYMMDD"
