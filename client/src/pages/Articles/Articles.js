@@ -119,7 +119,7 @@ handleFormSubmit = event => {
               
              <Col size="md-12">
              <form>
-             <h4>Topic to Search</h4>
+             <h4 id="results">Topic to Search</h4>
               <Input
               
                 value={this.state.topic}
@@ -149,11 +149,11 @@ handleFormSubmit = event => {
               </FormBtn>
            
               </form>
-              <List>
+              {/* <List> */}
               <Col size="md-12">
             {this.state.articles.length ? (
               <div className="panel panel-primary">
-                <div className="panel-heading"><h4>Results</h4></div>
+                <div className="panel-heading"><h4 id="results">Results</h4></div>
                 <div className="panel-body">
                 <List>
                     {this.state.articlesDisplayed.map(article => (
@@ -178,7 +178,7 @@ handleFormSubmit = event => {
             }
           </Col>
                
-              </List>
+              {/* </List> */}
               </Col>
                 </Row>
                 </Container>

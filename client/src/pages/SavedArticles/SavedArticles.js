@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 // import React from "react";
 import { Link } from "react-router-dom";
-// import { Col,  Row, Container } from "../../components/Grid";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import {  List, ListItem } from "../../components/List";
-// import { Input, FormBtn } from "../../components/Form";
+import "./SavedArticles.css";
 import DeleteBtn from "../../components/DeleteBtn";
 
 
@@ -19,10 +18,7 @@ class SavedArticles extends Component {
           saved:{},
           articlesDisplayed:[]
         };
-        // componentDidMount() {
-        // //   this.loadArticles();
-        //   this.searchArticles("Trump", "20170101", "20180101");
-        // }
+        
         componentDidMount() {
                 this.loadArticles();
               }
@@ -45,38 +41,35 @@ class SavedArticles extends Component {
         render() {
                 return (
         <Container fluid>
-        <Row>
-          <Col size="md-12">
-           
-              {/* <h1>
-                {this.state.articles} by {this.state.articles}
-              </h1>
-             */}
-          </Col>
-        </Row>
+        
         <Row>
         <Col size="md-12 sm-12">
-            {/* <Jumbotron>
-              <h1>Saved Articles</h1>
-            </Jumbotron> */}
+        <div className="panel panel-primary">
+                <div className="panel-heading saved-heading"><h4 id="SvdArt">Saved Articles</h4></div>
+                <div className="panel-body">
               {this.state.articles.length ? (
               <List>
                 {this.state.articles.map(article => (
                   <ListItem key={article._id}>
-                    {/* <Link to={article.url} target="_blank"> */}
+                    <Link to={article.link} target="_blank">
                       <strong>
                         Title: {article.title} 
-                        <br/>Link: {article.web_url} 
+                        
                         <br/>Saved at: {article.date}
                       </strong>
-                    {/* </Link> */}
+                    </Link>
                     <DeleteBtn onClick={() => this.deleteArticle(article._id)} />
                   </ListItem>
                 ))}
+               
+               
               </List>
+              
             ) : (
               <h3>No Results to Display</h3>
             )}
+            </div>
+            </div>
           </Col>
         </Row>
         <Row>
