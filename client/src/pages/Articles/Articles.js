@@ -131,13 +131,13 @@ handleFormSubmit = event => {
                 value={this.state.from}
                 onChange={this.handleInputChange}
                 name="from"
-                placeholder="date from YYYY/MM/DD"
+                placeholder="date from YYYYMMDD"
               />
               <Input
                 value={this.state.to}
                 onChange={this.handleInputChange}
                 name="to"
-                placeholder="date to YYYY/MM/DD"
+                placeholder="date to YYYYMMDD"
               />
               <FormBtn
                 disabled={!(this.state.topic && this.state.from && this.state.to)}
