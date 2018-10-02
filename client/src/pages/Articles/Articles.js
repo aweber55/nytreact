@@ -4,62 +4,62 @@ import { Col, Row, Container } from "../../components/Grid";
 import {  List, ListItem } from "../../components/List";
 import { Input, FormBtn } from "../../components/Form";
 import  SaveBtn  from "../../components/SaveBtn";
+import { Link } from "react-router-dom";
 
 
 
 class Articles extends Component {
     state = {
       articles: [],
-      title: "",
+      topic: "",
       from: "",
       to: "",
       saved:{},
       articlesDisplayed:[]
     };
+    componentDidMount() {
+      this.loadArticles();
+      this.searchArticles("Orlando", "20170101", "20180101");
+    }
+
 
 searchArticles = (topic, from, to ) => {
-  this.setState({articlesDisplayed: [] })
+  
+  let results = this;
   
 
   API.findNYTArticles(topic, from, to)
   .then(function(res) {
 
-
+    if(res) {
+      let data = [];
+      
+      for (var i=0; i<(5>res.data.response.docs.length ? (res.data.response.docs.length) : 10); i++){
+      var url = res.data.response.docs[i].web_url;
+      var title = res.data.response.docs[i].headline.main;
+      var pub_date = res.data.response.docs[i].pub_date;
+      var id = res.data.response.docs[i]._id;
+      var newdata = {
+        _id: id,
+        title: title,
+        url: url,
+        pub_date: pub_date
+      }
+      data.push(newdata);
+      }
+      
+      results.setState({articlesDisplayed: data});
+      console.log(data); 
+      
+    }
   })
+};
+  
 
 
-}
 
-    // searchArticles = event => {
-    //     event.preventDefault();
-        
-    //     API.findArticles(this.state.title)
-    //       .then(res => {
-    //         let newArray = []
-    //         this.setState({ articles: res.data.response.docs}); 
-    //         console.log(this.state.articles); 
-    //         this.state.articles.forEach(elem => {
-    //         console.log(elem);
-    //         this.setState({
-    //                 saved:{
-    //                     title:elem.headline.main,
-    //                     date:elem.pub_date,
-    //                     link:elem.web_url
-    //                 }
-    //             });
-    //         console.log(this.state.saved);
-    //         newArray.push(this.state.saved);
-    //             API.saveArticles(this.state.saved)
-    //             .then(res => {
-    //                 console.log(res);
-    //                 this.setState({
-    //                     articlesDisplayed:newArray
-    //                 })
-		// 		})
-    //         });
-    //     })
-    //     this.loadSavedArticles();
-    // };
+
+    
     
 
     handleInputChange = event => {
@@ -69,25 +69,33 @@ searchArticles = (topic, from, to ) => {
         });
       };
       
-      saveArticle = (article) => {
-       
-        API.saveArticles( {
-          title: article.title,
-          date: article.date,
-          url: article.url,
-          saved: true
-        })
-        .then(res => this.loadSavedArticles())
-        .catch(err => console.log(err));
-       
+    
+
+    saveArticle = (article) => {
+      let newArticle = {
+        title: article.title,
         
-    };
-    loadSavedArticles = () => {
-		API.getArticles()
-			.then(res => {
-				this.setState({ articles: res.data })
-			}).catch(err => console.log(err))
-	};
+        date: article.date,
+        link: article.url,
+        saved: true
+      }
+  
+      API
+        .saveArticles(newArticle)
+        .then(results => {
+          console.log(results);
+          
+        })
+        .catch(err => console.log(err));
+    }
+  
+  loadArticles(){
+    API.getArticles()
+    .then(res =>
+      this.setState({ articles: res.data, topic: "", from: "", to: ""})
+    )
+    .catch(err => console.log(err));
+  }
 
    
       
@@ -108,31 +116,31 @@ handleFormSubmit = event => {
           <Container>
            
             <Row >
-              {/* <button className="btn btn-danger" onClick={this.handleFormSubmit} /> */}
+              
              <Col size="md-12">
              <form>
-             <h4>Topic</h4>
+             <h4>Topic to Search</h4>
               <Input
               
-                value={this.props.topic}
+                value={this.state.topic}
                 onChange={this.handleInputChange}
                 name="topic"
-                placeholder="hello"
+                placeholder="topic"
               />
              <Input
                 value={this.state.from}
                 onChange={this.handleInputChange}
                 name="from"
-                placeholder="date from"
+                placeholder="date from YYYY/MM/DD"
               />
               <Input
                 value={this.state.to}
                 onChange={this.handleInputChange}
                 name="to"
-                placeholder="date to"
+                placeholder="date to YYYY/MM/DD"
               />
               <FormBtn
-                // disabled={!(this.state.topic && this.state.from && this.state.to)}
+                disabled={!(this.state.topic && this.state.from && this.state.to)}
                 onClick={this.handleFormSubmit} 
                 
               >
@@ -150,13 +158,15 @@ handleFormSubmit = event => {
                 <List>
                     {this.state.articlesDisplayed.map(article => (
                       <ListItem
-                        key={article._id}
-                        title={article.title}
-                        link={article.link}
-                        date={article.date}>
-                        {/* <button  onClick={() => this.saveArticle(article)}/> */}
-                      
-                        <SaveBtn  onClick={() => this.saveArticle(article._id)}/>
+                        key={article._id}>
+                        <Link to={article.url} target="_blank">
+                        <strong>
+                          {article.title}
+                        </strong>
+                        <p>Published on: {article.pub_date}</p>
+                        
+                        </Link>
+                        <SaveBtn  onClick={() => this.saveArticle(article)}/>
                       </ListItem>))}
                   </List>
                 </div>
