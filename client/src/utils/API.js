@@ -28,6 +28,6 @@ export default {
       console.log(topic, from, to);
       return axios.get(`${BASEURL}?api-key=${APIKEY}&q=${topic}&begin_date=${from}&end_date=${to}`);
       
-  },
+  }
   
 };
