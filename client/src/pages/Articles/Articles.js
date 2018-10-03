@@ -17,7 +17,7 @@ class Articles extends Component {
       saved:{},
       articlesDisplayed:[]
     };
-    componentDidMount() {
+    componentWillMount() {
       this.loadArticles();
       this.searchArticles("Orlando", "20170101", "20180101");
     }
