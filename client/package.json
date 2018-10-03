@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "yarn": "1.9.4",
-    "node": "10.7.0"
+    "yarn": "1.9.4"
   },
   "proxy": "http://localhost:3001/",
   "dependencies": {
